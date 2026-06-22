@@ -7,7 +7,7 @@ services:
   - type: web
     name: cyberlens-api
     runtime: python
-    plan: starter          # free tier has 512 MB RAM; starter ($7/mo) recommended for ML models
+    plan: free             # using free tier to avoid payment requirement
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn src.api.main:app --host 0.0.0.0 --port $PORT
     envVars:
