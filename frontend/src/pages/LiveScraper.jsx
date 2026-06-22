@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import * as api from '../services/api'
 
 export default function LiveScraper() {
   const [feed, setFeed] = useState([])
@@ -14,9 +15,8 @@ export default function LiveScraper() {
 
   async function fetchStatus() {
     try {
-      const res = await fetch('/api/scraper/status')
-      if (res.ok) {
-        const data = await res.json()
+      const data = await api.getScraperStatus()
+      if (data) {
         setStatus(data.worker || { running: false })
       }
     } catch { /* */ }
@@ -24,7 +24,7 @@ export default function LiveScraper() {
 
   function connectWS() {
     try {
-      const ws = new WebSocket(`ws://${window.location.host}/ws/scraper-feed`)
+      const ws = new WebSocket(api.getWsUrl())
       ws.onmessage = (e) => {
         const evt = JSON.parse(e.data)
         setFeed(prev => [evt, ...prev].slice(0, 100))
@@ -46,11 +46,9 @@ export default function LiveScraper() {
   }
 
   async function toggleScraper() {
-    const endpoint = status.running ? '/api/scraper/stop' : '/api/scraper/start'
     try {
-      const res = await fetch(endpoint, { method: 'POST' })
-      if (res.ok) {
-        const data = await res.json()
+      const data = status.running ? await api.stopScraper() : await api.startScraper()
+      if (data) {
         setStatus(prev => ({ ...prev, running: data.status === 'started' }))
       }
     } catch { /* */ }

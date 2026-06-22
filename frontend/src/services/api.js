@@ -4,9 +4,22 @@
  * Includes JWT auth header injection.
  */
 
-// In production (Vercel), VITE_API_URL points to the Render backend.
-// In local dev, falls back to '/api' which Vite proxy forwards to localhost:8080.
-const BASE = import.meta.env.VITE_API_URL || '/api'
+let base_url = import.meta.env.VITE_API_URL || '/api';
+if (base_url.startsWith('http') && !base_url.endsWith('/api') && !base_url.includes('/api/')) {
+  base_url = base_url.replace(/\/$/, '') + '/api';
+}
+const BASE = base_url;
+
+export function getWsUrl() {
+  if (BASE.startsWith('/')) {
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    return `${protocol}//${window.location.host}/ws/scraper-feed`;
+  }
+  const wsProtocol = BASE.startsWith('https:') ? 'wss:' : 'ws:';
+  const cleanUrl = BASE.replace(/^https?:\/\//i, '').replace(/\/api\/?$/i, '');
+  return `${wsProtocol}//${cleanUrl}/ws/scraper-feed`;
+}
+
 
 // ── Auth token management ─────────────────────────────────────
 let _token = localStorage.getItem('cyberlens_token') || ''
@@ -90,7 +103,10 @@ export const getTemplateEvolution = (id) => apiFetch(`${BASE}/fingerprint/campai
 export const getViralSpread = (hash) => apiFetch(`${BASE}/fingerprint/viral/${hash}`)
 export const getSimilarImages = (hash) => apiFetch(`${BASE}/fingerprint/similar/${hash}`)
 
-// ── Monitor ───────────────────────────────────────────────────
+// ── Monitor / Scraper ─────────────────────────────────────────
+export const getScraperStatus = () => apiFetch(`${BASE}/scraper/status`)
+export const startScraper = () => apiFetch(`${BASE}/scraper/start`, { method: 'POST' })
+export const stopScraper = () => apiFetch(`${BASE}/scraper/stop`, { method: 'POST' })
 export const getMonitorStatus = () => apiFetch(`${BASE}/monitor/status`)
 export const startMonitor = () => apiFetch(`${BASE}/monitor/start`, { method: 'POST' })
 export const stopMonitor = () => apiFetch(`${BASE}/monitor/stop`, { method: 'POST' })

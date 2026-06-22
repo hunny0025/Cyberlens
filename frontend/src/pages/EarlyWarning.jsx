@@ -57,7 +57,7 @@ export default function EarlyWarning() {
 
   function connectWs() {
     try {
-      const ws = new WebSocket(`ws://${window.location.host}/ws/scraper-feed`)
+      const ws = new WebSocket(api.getWsUrl())
       ws.onmessage = e => {
         const evt = JSON.parse(e.data)
         if (evt.type === 'HIGH_SEVERITY_ALERT') {

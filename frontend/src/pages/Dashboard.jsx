@@ -50,7 +50,7 @@ export default function Dashboard() {
 
   function connectWebSocket() {
     try {
-      const ws = new WebSocket(`ws://${window.location.host}/ws/scraper-feed`)
+      const ws = new WebSocket(api.getWsUrl())
       ws.onmessage = (e) => {
         const evt = JSON.parse(e.data)
         setLiveEvents(prev => [evt, ...prev].slice(0, 100))
