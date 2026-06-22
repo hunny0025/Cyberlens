@@ -1,0 +1,27 @@
+# ============================================================
+# CyberLens v3.0 — Render Blueprint
+# Deploy: https://render.com/docs/blueprint-spec
+# ============================================================
+
+services:
+  - type: web
+    name: cyberlens-api
+    runtime: python
+    plan: starter          # free tier has 512 MB RAM; starter ($7/mo) recommended for ML models
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn src.api.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PORT
+        value: "8000"
+      - key: AUTH_DISABLED
+        value: "true"
+      - key: DATABASE_URL
+        value: "sqlite:///data/cyberlens.db"
+      - key: PII_MASKING
+        value: "true"
+      - key: FRONTEND_URL
+        sync: false        # set manually after Vercel deploy (e.g. https://cyberlens.vercel.app)
+      - key: GEMINI_API_KEY
+        sync: false        # set in Render dashboard
+      - key: MISTRAL_API_KEY
+        sync: false

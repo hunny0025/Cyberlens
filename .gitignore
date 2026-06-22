@@ -1,0 +1,80 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+.Python
+env/
+venv/
+.venv/
+
+# Models (large binary files)
+models/scam_classifier/pytorch_model.bin
+models/scam_classifier/model.safetensors
+models/deepfake_detector/*.pth
+models/deepfake_detector/*.pt
+
+# Data (keep structure, ignore large files)
+data/raw/*
+data/processed/*
+data/deepfake/*
+data/qdrant/*
+data/uploads/*
+data/feedback/*
+data/evidence/*
+data/synthetic/*
+data/*.db
+data/*.db-shm
+data/*.db-wal
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/evidence/.gitkeep
+!data/feedback/.gitkeep
+!data/qdrant/.gitkeep
+!data/uploads/.gitkeep
+!data/synthetic/.gitkeep
+!data/ground_truth/.gitkeep
+
+# Database
+*.db
+*.sqlite3
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/*
+!logs/.gitkeep
+*.log
+
+# Node (frontend)
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# Root stale files
+package-lock.json
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Temp
+tmp/
+temp/
+uploads/

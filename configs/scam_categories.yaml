@@ -1,0 +1,299 @@
+# ============================================================
+# CyberLens — Comprehensive Scam Category Taxonomy
+# Gurugram Police / GPCSSI India
+# ============================================================
+
+categories:
+  financial_fraud:
+    - id: real_money_betting
+      label: "Real Money Betting"
+      it_act_section: "IT Act §66D + Public Gambling Act 1867"
+      severity: HIGH
+      blocking_priority: 2
+      keywords_english:
+        - betting tips
+        - cricket prediction
+        - IPL jackpot
+        - toss winner
+        - match fixing
+        - dream11 hack
+        - casino online
+        - rummy real money
+        - satta matka
+        - win big money
+      keywords_hindi:
+        - सट्टा
+        - बेटिंग टिप्स
+        - क्रिकेट भविष्यवाणी
+        - टॉस विनर
+        - मैच फिक्सिंग
+        - जीतो पैसा
+        - IPL जैकपॉट
+        - रमी खेलो
+        - कैसीनो
+
+    - id: investment_scam
+      label: "Investment Scam"
+      it_act_section: "IT Act §66D + IPC §420 + SEBI Act"
+      severity: HIGH
+      blocking_priority: 1
+      keywords_english:
+        - guaranteed return
+        - double money
+        - invest now
+        - stock tips
+        - mutual fund tips
+        - forex trading
+        - crypto profit
+        - ponzi scheme
+        - zero risk investment
+        - monthly income
+      keywords_hindi:
+        - गारंटी रिटर्न
+        - पैसा दुगना
+        - इन्वेस्ट करो
+        - स्टॉक टिप्स
+        - निवेश करें
+        - मुनाफा पक्का
+        - हर महीने कमाओ
+        - ज़ीरो रिस्क
+
+    - id: loan_scam
+      label: "Fake Loan App"
+      it_act_section: "IT Act §66D + RBI Guidelines"
+      severity: HIGH
+      blocking_priority: 2
+      keywords_english:
+        - instant loan
+        - loan approved
+        - no documents loan
+        - advance fee
+        - processing fee
+        - loan app
+        - personal loan
+      keywords_hindi:
+        - तुरंत लोन
+        - लोन अप्रूव्ड
+        - बिना दस्तावेज़ लोन
+        - प्रोसेसिंग फी
+        - एडवांस फी
+
+    - id: job_scam
+      label: "Job Scam"
+      it_act_section: "IT Act §66D + IPC §420"
+      severity: MEDIUM
+      blocking_priority: 3
+      keywords_english:
+        - work from home
+        - earn daily
+        - part time job
+        - typing job
+        - data entry job
+        - online job
+        - registration fee
+        - join now earn
+      keywords_hindi:
+        - घर बैठे कमाओ
+        - पार्ट टाइम जॉब
+        - रोज़ कमाओ
+        - ऑनलाइन काम
+        - रजिस्ट्रेशन फीस
+        - टाइपिंग जॉब
+
+    - id: lottery_scam
+      label: "Lottery / KBC Scam"
+      it_act_section: "IT Act §66D + IPC §420"
+      severity: MEDIUM
+      blocking_priority: 3
+      keywords_english:
+        - lottery winner
+        - lucky draw
+        - KBC winner
+        - prize money
+        - congratulations you won
+        - claim your prize
+        - WhatsApp lottery
+      keywords_hindi:
+        - लॉटरी विनर
+        - लकी ड्रॉ
+        - KBC विनर
+        - इनाम
+        - बधाई आपने जीता
+        - अपना इनाम लो
+
+  impersonation:
+    - id: fake_customer_care
+      label: "Fake Customer Care"
+      it_act_section: "IT Act §66C + §66D + IPC §419"
+      severity: HIGH
+      blocking_priority: 1
+      keywords_english:
+        - customer care
+        - helpline number
+        - toll free
+        - KYC update
+        - account suspended
+        - account blocked
+        - verify your account
+        - TRAI notice
+        - bank alert
+        - refund process
+      keywords_hindi:
+        - कस्टमर केयर
+        - हेल्पलाइन
+        - KYC अपडेट
+        - अकाउंट सस्पेंड
+        - अकाउंट ब्लॉक
+        - TRAI नोटिस
+        - रिफंड
+
+    - id: fake_govt_official
+      label: "Fake Government Official"
+      it_act_section: "IPC §170 + IT Act §66D + BNS §204"
+      severity: CRITICAL
+      blocking_priority: 1
+      keywords_english:
+        - CBI officer
+        - ED notice
+        - police officer
+        - digital arrest
+        - arrest warrant
+        - court order
+        - FIR registered
+        - cyber crime branch
+        - income tax notice
+        - customs officer
+      keywords_hindi:
+        - CBI अधिकारी
+        - ED नोटिस
+        - पुलिस अधिकारी
+        - डिजिटल अरेस्ट
+        - गिरफ़्तारी वारंट
+        - कोर्ट ऑर्डर
+        - FIR दर्ज
+        - आयकर नोटिस
+
+    - id: fake_celebrity_endorsement
+      label: "Fake Celebrity Endorsement"
+      it_act_section: "IT Act §66D + IPC §420 + Copyright Act"
+      severity: HIGH
+      blocking_priority: 2
+      keywords_english:
+        - Mukesh Ambani investment
+        - Ratan Tata scheme
+        - PM Modi scheme
+        - endorsed by
+        - celebrity investment
+        - famous person recommends
+      keywords_hindi:
+        - मुकेश अंबानी योजना
+        - रतन टाटा स्कीम
+        - मोदी योजना
+        - सेलिब्रिटी इन्वेस्टमेंट
+
+  harmful_content:
+    - id: sextortion_threat
+      label: "Sextortion / Blackmail"
+      it_act_section: "IT Act §66E + BNS §77 + IT Act §67"
+      severity: CRITICAL
+      blocking_priority: 1
+      keywords_english:
+        - viral your video
+        - send money or
+        - blackmail
+        - intimate video
+        - leaked photos
+        - morphed images
+        - pay or expose
+        - sextortion
+      keywords_hindi:
+        - वीडियो वायरल
+        - पैसे भेजो नहीं तो
+        - ब्लैकमेल
+        - अश्लील वीडियो
+        - फोटो लीक
+        - मॉर्फ्ड इमेज
+
+    - id: child_exploitation
+      label: "Child Exploitation Material"
+      it_act_section: "POCSO Act §14/15 + IT Act §67B"
+      severity: CRITICAL
+      blocking_priority: 1
+      keywords_english:
+        - child video
+        - underage
+        - minor content
+        - school girl
+        - child abuse
+      keywords_hindi:
+        - बच्चों का वीडियो
+        - नाबालिग
+        - स्कूल लड़की
+
+    - id: drug_sale
+      label: "Online Drug Sale"
+      it_act_section: "NDPS Act 1985 + IT Act §66"
+      severity: CRITICAL
+      blocking_priority: 1
+      keywords_english:
+        - buy drugs online
+        - weed delivery
+        - cannabis
+        - cocaine
+        - meth
+        - darknet market
+        - drug dealer
+      keywords_hindi:
+        - ड्रग्स ऑनलाइन
+        - गांजा
+        - चरस
+        - नशा
+
+  platform_violations:
+    - id: fake_followers_sale
+      label: "Fake Followers / Engagement"
+      it_act_section: "IT Act §66 + Platform ToS violation"
+      severity: LOW
+      blocking_priority: 4
+      keywords_english:
+        - buy followers
+        - buy likes
+        - Instagram followers
+        - YouTube subscribers
+        - fake engagement
+        - social media growth
+      keywords_hindi:
+        - फॉलोअर्स खरीदो
+        - लाइक्स खरीदो
+
+    - id: counterfeit_products
+      label: "Counterfeit Products"
+      it_act_section: "Trademark Act 1999 + Consumer Protection Act 2019"
+      severity: MEDIUM
+      blocking_priority: 3
+      keywords_english:
+        - first copy
+        - replica watch
+        - branded cheap
+        - original at low price
+        - AAA quality
+      keywords_hindi:
+        - फर्स्ट कॉपी
+        - ब्रांडेड सस्ता
+        - ओरिजिनल कम कीमत
+
+    - id: piracy_links
+      label: "Piracy / Illegal Streaming"
+      it_act_section: "IT Act §66 + Copyright Act 1957 §63"
+      severity: MEDIUM
+      blocking_priority: 3
+      keywords_english:
+        - free movies download
+        - pirated content
+        - torrent links
+        - illegal streaming
+        - crack software
+      keywords_hindi:
+        - फ्री मूवी डाउनलोड
+        - पायरेटेड
+        - टोरेंट लिंक

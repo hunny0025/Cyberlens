@@ -1,0 +1,69 @@
+# ============================================================
+# CyberLens v3.0 — Criminal Intelligence Platform
+# Gurugram Police / GPCSSI India
+# ============================================================
+
+# ── Core FastAPI ─────────────────────────────────────────────
+fastapi==0.111.0
+uvicorn==0.30.1
+python-multipart==0.0.9
+
+# ── Core ML ──────────────────────────────────────────────────
+torch==2.3.0
+torchvision==0.18.0
+transformers==4.41.0
+datasets==2.19.0
+scikit-learn==1.4.2
+accelerate==0.30.0
+evaluate==0.4.2
+seqeval==1.2.2
+
+# ── Image Processing ─────────────────────────────────────────
+Pillow==10.3.0
+opencv-python-headless==4.9.0.80
+pytesseract==0.3.10
+
+# ── OCR Engines (PROMPT 8) ───────────────────────────────────
+# PaddleOCR (optional — fast local OCR)
+# pip install paddlepaddle paddleocr
+# QR extraction
+pyzbar==0.1.9
+# (pyzbar requires zbar system library: apt-get install libzbar0)
+
+# ── Graph Database (PROMPT 7) ────────────────────────────────
+neo4j==5.20.0
+
+# ── Vector Database (PROMPT 10) ──────────────────────────────
+qdrant-client==1.9.1
+
+# ── Translation (PROMPT 8) ───────────────────────────────────
+# IndicTrans2 loaded from HuggingFace (no extra pip install needed)
+sacrebleu==2.4.2        # required by IndicTrans2
+sentencepiece==0.2.0
+
+# ── Database ─────────────────────────────────────────────────
+sqlalchemy==2.0.30
+
+# ── Social Media Scraping (PROMPT 11) ────────────────────────
+playwright==1.44.0
+telethon==1.36.0
+
+# ── Reports ──────────────────────────────────────────────────
+reportlab==4.2.0
+
+# ── Utilities ────────────────────────────────────────────────
+python-dotenv==1.0.1
+pandas==2.2.2
+numpy==1.26.4
+tqdm==4.66.4
+requests==2.32.3
+
+# ── Google AI (PROMPT 12) ────────────────────────────────────
+google-generativeai==0.5.4
+
+# ── Google Cloud Vision (optional fallback OCR) ──────────────
+google-cloud-vision==3.7.2
+
+# ── Testing ──────────────────────────────────────────────────
+pytest==8.2.0
+httpx==0.27.0
