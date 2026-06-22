@@ -136,14 +136,20 @@ class DeepfakeDetector:
         except Exception as e:
             logger.debug("CelebrityDatabase not available: %s", e)
 
-        try:
-            self._load_model()
-        except Exception as e:
-            logger.warning(
-                "Could not load deepfake model from %s: %s. "
-                "Using heuristic analysis only.",
-                self.model_dir, e,
-            )
+        # Skip model loading on Render Free Tier to prevent OOM
+        import os
+        if os.getenv("FREE_TIER", "false").lower() == "true" or os.getenv("RENDER", "false").lower() == "true":
+            logger.info("DeepfakeDetector: Running in FREE_TIER/RENDER environment. Using heuristic analysis only to prevent OOM.")
+        else:
+            try:
+                self._load_model()
+            except Exception as e:
+                logger.warning(
+                    "Could not load deepfake model from %s: %s. "
+                    "Using heuristic analysis only.",
+                    self.model_dir, e,
+                )
+
 
     def _load_model(self) -> None:
         """Load EfficientNet-B4 model with custom head."""

@@ -60,9 +60,16 @@ class ImageFingerprinter:
         self._try_load_clip()
 
     def _try_load_clip(self) -> None:
-        """Lazy-load CLIP model."""
+        """Lazy-load CLIP model (skips on Free Tier to avoid OOM)."""
         if ImageFingerprinter._clip_loaded:
             return
+            
+        import os
+        if os.getenv("FREE_TIER", "false").lower() == "true" or os.getenv("RENDER", "false").lower() == "true":
+            logger.info("ImageFingerprinter: Running in FREE_TIER/RENDER environment. Skipping CLIP load to prevent OOM.")
+            ImageFingerprinter._clip_loaded = True
+            return
+
         try:
             from transformers import CLIPModel, CLIPProcessor
             model_name = "openai/clip-vit-base-patch32"
