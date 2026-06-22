@@ -27,5 +27,6 @@ RUN mkdir -p data logs models/scam_classifier models/deepfake_detector
 # Expose port
 EXPOSE 8000
 
-# Start command
-CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start command using sh -c to resolve the runtime $PORT environment variable assigned by Render
+CMD ["sh", "-c", "uvicorn src.api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+
