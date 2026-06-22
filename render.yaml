@@ -6,10 +6,10 @@
 services:
   - type: web
     name: cyberlens-api
-    runtime: python
+    env: docker
+    dockerfilePath: Dockerfile
+    dockerContext: .
     plan: free             # using free tier to avoid payment requirement
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn src.api.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PORT
         value: "8000"
