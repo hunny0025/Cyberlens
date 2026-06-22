@@ -13,108 +13,20 @@ import EarlyWarning        from './pages/EarlyWarning'
 import EvidenceBuilder     from './pages/EvidenceBuilder'
 import ModelEvaluation     from './pages/ModelEvaluation'
 import IntelligencePipeline from './pages/IntelligencePipeline'
-import Login               from './pages/Login'
 
 export default function App() {
   const location = useLocation()
-  const [officer, setOfficer]         = useState(null)
-  const [authChecked, setAuthChecked] = useState(false)
+  const [officer, setOfficer]         = useState({
+    officer_id: 'off-001',
+    username: 'admin',
+    full_name: 'System Administrator',
+    badge_number: 'ADMIN-001',
+    district: 'ALL',
+    role: 'admin',
+  })
   const [criticalCount, setCriticalCount] = useState(0)
   const [highFPR, setHighFPR] = useState(false)
 
-  useEffect(() => {
-    async function checkAuth() {
-      // First check if backend has auth disabled (dev mode)
-      try {
-        const health = await fetch('/health').then(r => r.json()).catch(() => null)
-        // Try /api/auth/me — if AUTH_DISABLED=true on backend, it accepts any/no token
-        // In dev mode, auto-login with a synthetic token
-        const authDisabled = health?.status === 'healthy'
-
-        if (api.isAuthenticated()) {
-          // Has existing token — verify it
-          const r = await api.getMe()
-          if (r && r.officer_id) {
-            setOfficer(r)
-            setAuthChecked(true)
-            return
-          }
-          api.clearToken()
-        }
-
-        // No token — try auto-login if AUTH_DISABLED=true
-        if (authDisabled) {
-          // Try logging in with default admin credentials silently
-          const result = await api.login('admin', 'cyberlens@2025')
-          if (result?.access_token) {
-            api.setToken(result.access_token)
-            setOfficer({
-              officer_id: result.officer_id || 'off-001',
-              username: 'admin',
-              full_name: result.full_name || 'System Administrator',
-              badge_number: result.badge_number || 'ADMIN-001',
-              district: result.district || 'ALL',
-              role: 'admin',
-            })
-            setAuthChecked(true)
-            return
-          }
-        }
-      } catch { /* */ }
-
-      setAuthChecked(true)
-    }
-    checkAuth()
-
-    // Listen for auth expiry
-    const handler = () => { setOfficer(null); api.clearToken() }
-    window.addEventListener('cyberlens:auth-expired', handler)
-    return () => window.removeEventListener('cyberlens:auth-expired', handler)
-  }, [])
-
-  // Poll critical alert count
-  useEffect(() => {
-    if (!officer) return
-    const fetchCritical = () => {
-      api.getEarlyWarnings().then(r => {
-        const count = (r?.alerts || []).filter(a =>
-          a.severity === 'CRITICAL' || a.severity === 'EMERGENCY'
-        ).length
-        setCriticalCount(count)
-      })
-    }
-    fetchCritical()
-    const timer = setInterval(fetchCritical, 60000)
-
-    // Check model FPR status
-    api.getEvalSummary().then(r => {
-      if (r?.summary?.any_high_fpr) setHighFPR(true)
-    })
-
-    return () => clearInterval(timer)
-  }, [officer])
-
-  function handleLogin(officerInfo) { setOfficer(officerInfo) }
-  function handleLogout() {
-    api.logout()
-    api.clearToken()
-    setOfficer(null)
-  }
-
-  if (!authChecked) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div className="spinner" style={{ margin: '0 auto 12px' }} />
-          <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>Loading CyberLens...</div>
-        </div>
-      </div>
-    )
-  }
-
-  if (!officer) {
-    return <Login onLogin={handleLogin} />
-  }
 
   const navGroups = [
     {
@@ -248,13 +160,6 @@ export default function App() {
               GPCSSI India<br />
               <span style={{ color: 'var(--accent)' }}>●</span> System Online
             </div>
-            <button
-              className="btn btn-outline btn-sm"
-              style={{ width: '100%', marginTop: 8, justifyContent: 'center' }}
-              onClick={handleLogout}
-            >
-              🔓 Logout
-            </button>
           </div>
         </aside>
 
