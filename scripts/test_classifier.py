@@ -21,6 +21,7 @@ tests = [
     ("First copy Gucci Louis Vuitton bags! Original quality 500 only!", "counterfeit_products"),
     ("Free movies download HD! Torrent links latest Bollywood!", "piracy_links"),
     ("Premium weed available! Home delivery! WhatsApp order!", "drug_sale"),
+    ("This is just a random text that should not match any scam keywords.", "unknown"),
 ]
 
 print(f"{'Input':<60} {'Expected':<30} {'Predicted':<30} {'Conf':>8} {'Status'}")

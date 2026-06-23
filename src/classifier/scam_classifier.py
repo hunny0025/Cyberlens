@@ -101,7 +101,22 @@ class ScamClassifier:
                 "10": "Online Drug Sale", "11": "Fake Followers / Engagement",
                 "12": "Counterfeit Products", "13": "Piracy / Illegal Streaming"
             }
-            self._category_index = {k.lower().replace(" ", "_").replace("/", "_").replace("_&_", "_"): int(v) for v, k in self._label_map.items()}
+            self._category_index = {
+                "real_money_betting": 0,
+                "investment_scam": 1,
+                "loan_scam": 2,
+                "job_scam": 3,
+                "lottery_scam": 4,
+                "fake_customer_care": 5,
+                "fake_govt_official": 6,
+                "fake_celebrity_endorsement": 7,
+                "sextortion_threat": 8,
+                "child_exploitation": 9,
+                "drug_sale": 10,
+                "fake_followers_sale": 11,
+                "counterfeit_products": 12,
+                "piracy_links": 13
+            }
             self._idx_to_cat_id = {v: k for k, v in self._category_index.items()}
             self._loaded = True
         else:
@@ -217,10 +232,13 @@ class ScamClassifier:
         scam_indicators = self._extract_indicators(entities)
 
         # Generate explanation
-        explanation = (
-            f"ML model classified this as '{result['category_name']}' "
-            f"with {result['confidence']*100:.1f}% confidence."
-        )
+        if result["label"] == -1:
+            explanation = "No matching scam keywords found. Defaulting to 'Unknown'."
+        else:
+            explanation = (
+                f"ML model classified this as '{result['category_name']}' "
+                f"with {result['confidence']*100:.1f}% confidence."
+            )
 
         return ClassificationResult(
             category=result["category_name"],
@@ -293,6 +311,7 @@ class ScamClassifier:
         
         # Categorized keywords mapping to labels
         keywords = {
+            7: ["mukesh ambani", "ratan tata", "pm modi", "celebrity", "endorse", "endorsed"], # Fake Celebrity Endorsement
             3: ["job", "task", "work from home", "part time", "part-time", "hourly pay", "salary", "daily income", "telegram task"], # Job Scam
             1: ["invest", "profit", "return", "double", "guaranteed", "stock", "crypto", "trading", "passive income", "earn money"], # Investment Scam
             2: ["loan", "instant loan", "credit", "personal loan", "no document", "cash loan", "quick cash"], # Fake Loan App
@@ -308,14 +327,19 @@ class ScamClassifier:
             13: ["piracy", "download movie", "free stream", "torrent", "leak movie"] # Piracy / Illegal Streaming
         }
 
-        # Default fallback is Investment Scam (most common) or first match
-        label = 1 
-        confidence = 0.5
+        # Default fallback is Unknown
+        label = -1 
+        confidence = 0.0
         
+        import re
         for lbl, kws in keywords.items():
-            if any(kw in text_lower for kw in kws):
-                label = lbl
-                confidence = 0.85
+            for kw in kws:
+                pattern = r'\b' + re.escape(kw) + r'\b'
+                if re.search(pattern, text_lower):
+                    label = lbl
+                    confidence = 0.85
+                    break
+            if label != -1:
                 break
                 
         # Map label index to category ID and display name
@@ -324,12 +348,17 @@ class ScamClassifier:
 
         # Fake probabilities distribution for frontend UI charting
         probabilities = {}
-        for i in range(14):
-            cat_name = self._label_map.get(str(i), f"Label-{i}")
-            if i == label:
-                probabilities[cat_name] = confidence
-            else:
-                probabilities[cat_name] = (1.0 - confidence) / 13.0
+        if label == -1:
+            for i in range(14):
+                cat_name = self._label_map.get(str(i), f"Label-{i}")
+                probabilities[cat_name] = 0.0
+        else:
+            for i in range(14):
+                cat_name = self._label_map.get(str(i), f"Label-{i}")
+                if i == label:
+                    probabilities[cat_name] = confidence
+                else:
+                    probabilities[cat_name] = (1.0 - confidence) / 13.0
 
         return {
             "label": label,
@@ -361,6 +390,7 @@ class ScamClassifier:
         return ClassificationResult(
             category="Unknown",
             category_id="unknown",
+            label=-1,
             confidence=0.0,
             model_used="none",
             explanation="Classification failed — model not loaded or empty text.",
