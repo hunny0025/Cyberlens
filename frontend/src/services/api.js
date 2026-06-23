@@ -4,7 +4,16 @@
  * Includes JWT auth header injection.
  */
 
-let base_url = import.meta.env.VITE_API_URL || '/api';
+let base_url = import.meta.env.VITE_API_URL;
+
+if (!base_url) {
+  if (typeof window !== 'undefined' && window.location.hostname.endsWith('.vercel.app')) {
+    base_url = 'https://cyberlens-api.onrender.com/api';
+  } else {
+    base_url = '/api';
+  }
+}
+
 if (base_url.startsWith('http') && !base_url.endsWith('/api') && !base_url.includes('/api/')) {
   base_url = base_url.replace(/\/$/, '') + '/api';
 }
